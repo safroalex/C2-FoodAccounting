@@ -9,11 +9,9 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        // Обновляем путь к FXML файлу на MainView.fxml
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/foodscounting/foodscounting/view/MainView.fxml"));
-        // Можно изменить размер окна, чтобы лучше соответствовать вашему интерфейсу
-        Scene scene = new Scene(fxmlLoader.load(), 800, 600); // Увеличил размер окна
-        stage.setTitle("Main View"); // Обновляем заголовок окна
+        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
+        stage.setTitle("Главная страница"); // Обновляем заголовок окна
         stage.setScene(scene);
         stage.show();
     }

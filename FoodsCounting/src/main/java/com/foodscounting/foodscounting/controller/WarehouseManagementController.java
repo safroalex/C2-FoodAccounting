@@ -1,5 +1,6 @@
 package com.foodscounting.foodscounting.controller;
 
+import com.foodscounting.foodscounting.dao.WarehouseDAO;
 import com.foodscounting.foodscounting.model.ProductRecord;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,7 +13,10 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 
 public class WarehouseManagementController {
     @FXML
@@ -22,12 +26,15 @@ public class WarehouseManagementController {
     @FXML
     private TableColumn<ProductRecord, LocalDate> columnDate;
 
+    private WarehouseDAO warehouseDao = new WarehouseDAO();
+
     private ObservableList<ProductRecord> products = FXCollections.observableArrayList();
     private MainViewController mainController;
     public void initialize() {
         columnNumber.setCellValueFactory(cellData -> cellData.getValue().numberProperty().asObject());
         columnDate.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
         inventoryTable.setItems(products);
+        updateInventoryTable();
     }
 
     public void setMainController(MainViewController mainController) {
@@ -37,27 +44,51 @@ public class WarehouseManagementController {
     private void handleAddProduct(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/foodscounting/foodscounting/view/AddProductDialog.fxml"));
-            Scene scene = new Scene(loader.load(), 400, 300); // Увеличенные размеры окна
+            Scene scene = new Scene(loader.load(), 400, 300);
             Stage stage = new Stage();
             stage.setTitle("Добавление продукта");
             stage.setScene(scene);
             stage.showAndWait();
+            updateInventoryTable();
         } catch (IOException e) {
             System.out.println("Ошибка при загрузке FXML: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-
-
+    private void updateInventoryTable() {
+        try {
+            List<ProductRecord> entries = warehouseDao.getAllWarehouseEntries();
+            products.setAll(entries);
+        } catch (SQLException e) {
+            System.out.println("Ошибка при загрузке записей склада: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     private void handleRemoveProduct(ActionEvent event) {
-        int selectedIndex = inventoryTable.getSelectionModel().getSelectedIndex();
-        if (selectedIndex >= 0) {
-            inventoryTable.getItems().remove(selectedIndex);
+        ProductRecord selectedRecord = inventoryTable.getSelectionModel().getSelectedItem();
+        if (selectedRecord != null) {
+            try {
+                // Получаем LocalDate из ObjectProperty
+                LocalDate selectedDate = selectedRecord.dateProperty().get();
+                // Конвертируем LocalDate в java.sql.Date для использования в SQL запросе
+                warehouseDao.deleteWarehouseEntriesByDate(Date.valueOf(selectedDate));
+                // Обновляем таблицу
+                updateInventoryTable();
+                System.out.println("Запись успешно удалена.");
+            } catch (SQLException e) {
+                System.out.println("Ошибка при удалении записей: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Не выбрана ни одна запись для удаления.");
         }
     }
+
+
+
 
     @FXML
     private void handleViewInventory(ActionEvent event) {

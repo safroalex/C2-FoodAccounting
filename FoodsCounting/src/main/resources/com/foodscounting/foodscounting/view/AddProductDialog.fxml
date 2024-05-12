@@ -8,5 +8,6 @@
     <TextField fx:id="quantityField" promptText="Количество на складе"/>
     <ComboBox fx:id="unitComboBox" promptText="Единица измерения"/>
     <DatePicker fx:id="expiryDatePicker" promptText="Дата завершения срока годности"/>
+    <TextField fx:id="remarkField" promptText="Примечание"/>
     <Button text="Сохранить" onAction="#handleSaveProduct"/>
 </VBox>
