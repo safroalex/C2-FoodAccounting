@@ -1,0 +1,37 @@
+.root {
+    -fx-font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+    -fx-base: #ffffff;
+    -fx-background: #f0f0f0;
+}
+
+.button {
+    -fx-padding: 10;
+    -fx-background-color: #0078d7;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.button:hover {
+    -fx-background-color: #005fa3;
+}
+
+.menu-bar {
+    -fx-background-color: #2a2a2a;
+    -fx-text-fill: white;
+}
+
+.menu {
+    -fx-text-fill: white;
+    -fx-padding: 5px 10px;
+}
+
+.welcome-label {
+    -fx-font-size: 16px;
+    -fx-padding: 20px;
+    -fx-text-fill: #333;
+    -fx-alignment: center;
+}
+
+.label {
+    -fx-font-size: 16px;
+}
