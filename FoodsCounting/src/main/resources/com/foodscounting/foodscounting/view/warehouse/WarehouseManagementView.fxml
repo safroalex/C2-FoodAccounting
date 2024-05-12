@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.foodscounting.foodscounting.controller.WarehouseManagementController" spacing="10" alignment="TOP_CENTER" fillWidth="true">
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.foodscounting.foodscounting.controller.warehouse.WarehouseManagementController" spacing="10" alignment="TOP_CENTER" fillWidth="true">
     <Region minHeight="50" VBox.vgrow="NEVER"/>
     <Label text="Запасы продовольствия на складах учреждений УИС" style="-fx-font-size: 16px; -fx-font-weight: bold;" VBox.vgrow="NEVER"/>
     <HBox spacing="10" alignment="CENTER">

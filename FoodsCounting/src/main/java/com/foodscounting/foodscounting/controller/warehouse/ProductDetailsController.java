@@ -1,10 +1,10 @@
-package com.foodscounting.foodscounting.controller;
+package com.foodscounting.foodscounting.controller.warehouse;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import com.foodscounting.foodscounting.model.ProductDetail;
+import com.foodscounting.foodscounting.model.warehouse.ProductDetail;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.foodscounting.foodscounting.dao;
 
-import com.foodscounting.foodscounting.model.*;
+import com.foodscounting.foodscounting.model.warehouse.*;
 import com.foodscounting.foodscounting.utils.DatabaseConnector;
 import java.sql.*;
 import java.time.LocalDate;

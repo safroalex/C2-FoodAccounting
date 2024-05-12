@@ -3,7 +3,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.foodscounting.foodscounting.controller.ProductDetailsController" spacing="10" style="-fx-padding: 10;">
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.foodscounting.foodscounting.controller.warehouse.ProductDetailsController" spacing="10" style="-fx-padding: 10;">
     <TableView fx:id="detailsTable">
         <columns>
             <TableColumn fx:id="groupColumn" text="Группа продуктов" prefWidth="150"/>

@@ -1,12 +1,12 @@
-package com.foodscounting.foodscounting.model;
+package com.foodscounting.foodscounting.model.warehouse;
 
 import java.util.UUID;
 
-public class ProductItem {
+public class GroupItem {
     private UUID id;
     private String name;
 
-    public ProductItem(UUID id, String name) {
+    public GroupItem(UUID id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -14,6 +14,7 @@ public class ProductItem {
     public UUID getId() {
         return id;
     }
+
 
     @Override
     public String toString() {

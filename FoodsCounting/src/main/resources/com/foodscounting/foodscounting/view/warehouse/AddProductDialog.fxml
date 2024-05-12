@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.time.LocalDate?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.foodscounting.foodscounting.controller.AddProductDialogController" spacing="10" style="-fx-padding: 10;">
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.foodscounting.foodscounting.controller.warehouse.AddProductDialogController" spacing="10" style="-fx-padding: 10;">
     <ComboBox fx:id="productGroupComboBox" promptText="Выберите группу продуктов"/>
     <ComboBox fx:id="productNameComboBox" promptText="Наименование продукта"/>
     <TextField fx:id="quantityField" promptText="Количество на складе"/>

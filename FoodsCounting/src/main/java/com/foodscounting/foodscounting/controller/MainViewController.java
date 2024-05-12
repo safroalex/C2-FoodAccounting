@@ -1,5 +1,6 @@
 package com.foodscounting.foodscounting.controller;
 
+import com.foodscounting.foodscounting.controller.warehouse.WarehouseManagementController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +20,7 @@ public class MainViewController {
 
     public void switchToWarehouseManagement() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/foodscounting/foodscounting/view/WarehouseManagementView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/foodscounting/foodscounting/view/warehouse/WarehouseManagementView.fxml"));
             VBox warehouseView = loader.load();
             WarehouseManagementController controller = loader.getController();
             controller.setMainController(this);
@@ -29,6 +30,20 @@ public class MainViewController {
             e.printStackTrace();
         }
     }
+
+    public void switchToLayoutManagement() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/foodscounting/foodscounting/view/LayoutManagementView.fxml"));
+            VBox layoutView = loader.load();  // Убедитесь, что корневой элемент в FXML - VBox
+            LayoutManagementController controller = loader.getController();
+            controller.setMainController(this);
+            mainContainer.setCenter(layoutView);
+        } catch (IOException e) {
+            LOGGER.severe("Error loading Layout Management view: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 
     public void showMainView() {
         if (mainContainer.getCenter() != mainView) {
@@ -53,8 +68,9 @@ public class MainViewController {
 
     @FXML
     private void handleLayouts(ActionEvent event) {
-        // Implementation
+        switchToLayoutManagement();
     }
+
 
     @FXML
     private void handleTechCards(ActionEvent event) {

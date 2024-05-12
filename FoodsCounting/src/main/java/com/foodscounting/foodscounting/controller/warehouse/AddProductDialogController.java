@@ -1,4 +1,4 @@
-package com.foodscounting.foodscounting.controller;
+package com.foodscounting.foodscounting.controller.warehouse;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -6,9 +6,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-import com.foodscounting.foodscounting.model.GroupItem;
-import com.foodscounting.foodscounting.model.ProductItem;
-import com.foodscounting.foodscounting.model.UnitItem;
+import com.foodscounting.foodscounting.model.warehouse.GroupItem;
+import com.foodscounting.foodscounting.model.warehouse.ProductItem;
+import com.foodscounting.foodscounting.model.warehouse.UnitItem;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;

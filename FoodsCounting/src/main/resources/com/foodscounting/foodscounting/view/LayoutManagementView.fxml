@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.foodscounting.foodscounting.controller.LayoutManagementController" spacing="10" style="-fx-padding: 10;">
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Добавить" onAction="#handleAddLayout"/>
+        <Button text="Просмотреть" onAction="#handleViewLayout"/>
+        <Button text="Удалить" onAction="#handleDeleteLayout"/>
+        <Button text="Утвердить" onAction="#handleApproveLayout"/>
+        <Button text="Вернуться на главный экран" onAction="#handleBackToMain"/>
+    </HBox>
+
+    <TableView fx:id="layoutTable">
+        <columns>
+            <TableColumn text="№" fx:id="columnNumber"/>
+            <TableColumn text="Период раскладки" fx:id="columnPeriod"/>
+            <TableColumn text="Статус" fx:id="columnStatus"/>
+        </columns>
+    </TableView>
+</VBox>

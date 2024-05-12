@@ -1,8 +1,9 @@
-package com.foodscounting.foodscounting.controller;
+package com.foodscounting.foodscounting.controller.warehouse;
 
+import com.foodscounting.foodscounting.controller.MainViewController;
 import com.foodscounting.foodscounting.dao.WarehouseDAO;
-import com.foodscounting.foodscounting.model.ProductDetail;
-import com.foodscounting.foodscounting.model.ProductRecord;
+import com.foodscounting.foodscounting.model.warehouse.ProductDetail;
+import com.foodscounting.foodscounting.model.warehouse.ProductRecord;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,7 +47,7 @@ public class WarehouseManagementController {
     @FXML
     private void handleAddProduct(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/foodscounting/foodscounting/view/AddProductDialog.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/foodscounting/foodscounting/view/warehouse/AddProductDialog.fxml"));
             Scene scene = new Scene(loader.load(), 400, 300);
             Stage stage = new Stage();
             stage.setTitle("Добавление продукта");
@@ -96,7 +97,7 @@ public class WarehouseManagementController {
     @FXML
     private void handleViewInventory(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/foodscounting/foodscounting/view/ProductDetailsView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/foodscounting/foodscounting/view/warehouse/ProductDetailsView.fxml"));
             Parent root = loader.load();
             ProductDetailsController controller = loader.getController();
 

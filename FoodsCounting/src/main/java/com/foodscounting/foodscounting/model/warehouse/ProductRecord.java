@@ -1,4 +1,4 @@
-package com.foodscounting.foodscounting.model;
+package com.foodscounting.foodscounting.model.warehouse;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
