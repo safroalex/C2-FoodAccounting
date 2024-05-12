@@ -3,22 +3,24 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
 
-<!-- Использование VBox как внешнего контейнера для управления вертикальной разметкой -->
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.foodscounting.foodscounting.controller.WarehouseManagementController" spacing="10" alignment="TOP_CENTER" fillWidth="true">
-    <!-- Добавление пустого региона для отступа от верхней границы или меню -->
-    <Region minHeight="50" VBox.vgrow="NEVER"/> <!-- Минимальная высота для создания отступа -->
-
-    <!-- Надпись заголовка -->
+    <Region minHeight="50" VBox.vgrow="NEVER"/>
     <Label text="Запасы продовольствия на складах учреждений УИС" style="-fx-font-size: 16px; -fx-font-weight: bold;" VBox.vgrow="NEVER"/>
-
-    <!-- HBox для горизонтального расположения кнопок -->
     <HBox spacing="10" alignment="CENTER">
         <Button text="Добавить" onAction="#handleAddProduct"/>
         <Button text="Просмотреть реестр продовольствия" onAction="#handleViewInventory"/>
         <Button text="Удалить" onAction="#handleRemoveProduct"/>
         <Button text="Вернуться на главный экран" onAction="#handleBackToMain"/>
     </HBox>
+    <!-- Добавление таблицы -->
+    <TableView fx:id="inventoryTable">
+        <columns>
+            <TableColumn text="Number" fx:id="columnNumber"/>
+            <TableColumn text="Дата внесения данных" fx:id="columnDate"/>
+        </columns>
+    </TableView>
 </VBox>
+
 
 
 

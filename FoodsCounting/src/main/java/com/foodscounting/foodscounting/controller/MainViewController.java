@@ -3,13 +3,9 @@ package com.foodscounting.foodscounting.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import java.util.logging.Logger;
 
 import java.io.IOException;
@@ -34,15 +30,11 @@ public class MainViewController {
         }
     }
 
-
     public void showMainView() {
         if (mainContainer.getCenter() != mainView) {
             mainContainer.setCenter(mainView);
         }
     }
-
-
-
 
     @FXML
     private void handleWarehouse(ActionEvent event) {
