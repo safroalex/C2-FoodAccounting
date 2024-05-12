@@ -1,11 +1,9 @@
 package com.foodscounting.foodscounting.dao;
 
-import com.foodscounting.foodscounting.model.GroupItem;
-import com.foodscounting.foodscounting.model.ProductItem;
-import com.foodscounting.foodscounting.model.ProductRecord;
-import com.foodscounting.foodscounting.model.UnitItem;
+import com.foodscounting.foodscounting.model.*;
 import com.foodscounting.foodscounting.utils.DatabaseConnector;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -142,5 +140,33 @@ public class WarehouseDAO {
             pstmtWarehouse.executeUpdate();
         }
     }
+
+    public List<ProductDetail> getProductsByDate(LocalDate date) throws SQLException {
+        List<ProductDetail> products = new ArrayList<>();
+        String sql = "SELECT p.Name, qp.Number, u.Name as UnitName, pg.Name as GroupName, qp.DateExpiry, qp.Remark " +
+                "FROM QuantityProdukt qp " +
+                "JOIN Product p ON qp.ProduktId = p.ID " +
+                "JOIN ProduktGroup pg ON p.ProduktGroupId = pg.ID " +
+                "JOIN Unit u ON qp.UnitId = u.ID " +
+                "WHERE qp.WarehouseId IN (SELECT ID FROM Warehouse WHERE DateDeposit = ?)";
+        try (Connection conn = DatabaseConnector.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setDate(1, java.sql.Date.valueOf(date)); // Конвертируем LocalDate в java.sql.Date для SQL запроса
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String group = rs.getString("GroupName");
+                String name = rs.getString("Name");
+                Integer quantity = rs.getInt("Number");
+                String unit = rs.getString("UnitName");
+                LocalDate expiryDate = rs.getDate("DateExpiry").toLocalDate();
+                String remark = rs.getString("Remark");
+                products.add(new ProductDetail(group, name, quantity, unit, expiryDate, remark));
+            }
+        }
+        return products;
+    }
+
+
+
 
 }

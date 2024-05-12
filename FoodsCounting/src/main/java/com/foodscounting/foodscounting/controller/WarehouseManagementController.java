@@ -1,13 +1,16 @@
 package com.foodscounting.foodscounting.controller;
 
 import com.foodscounting.foodscounting.dao.WarehouseDAO;
+import com.foodscounting.foodscounting.model.ProductDetail;
 import com.foodscounting.foodscounting.model.ProductRecord;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -92,8 +95,39 @@ public class WarehouseManagementController {
 
     @FXML
     private void handleViewInventory(ActionEvent event) {
-        // Логика просмотра остатков на складе
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/foodscounting/foodscounting/view/ProductDetailsView.fxml"));
+            Parent root = loader.load();
+            ProductDetailsController controller = loader.getController();
+
+            ProductRecord selectedRecord = inventoryTable.getSelectionModel().getSelectedItem();
+            if (selectedRecord != null) {
+                LocalDate selectedDate = selectedRecord.getDate();  // Получение LocalDate
+
+                List<ProductDetail> products = warehouseDao.getProductsByDate(selectedDate); // Передаём LocalDate
+                controller.setProducts(products);
+
+                Stage stage = new Stage();
+                stage.setTitle("Детали продукта на " + selectedDate.toString());
+                stage.setScene(new Scene(root));
+                stage.show();
+            }
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+            showAlert("Ошибка", "Не удалось загрузить данные о продуктах: " + e.getMessage());
+        }
     }
+
+
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
 
     @FXML
     private void handleBackToMain(ActionEvent event) {

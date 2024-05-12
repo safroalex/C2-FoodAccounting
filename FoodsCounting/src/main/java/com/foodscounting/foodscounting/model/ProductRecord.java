@@ -15,6 +15,12 @@ public class ProductRecord {
         this.date = new SimpleObjectProperty<>(date);
     }
 
+    // В классе ProductRecord
+    public LocalDate getDate() {
+        return date.get();
+    }
+
+
     public IntegerProperty numberProperty() {
         return number;
     }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.foodscounting.foodscounting.controller.ProductDetailsController" spacing="10" style="-fx-padding: 10;">
+    <TableView fx:id="detailsTable">
+        <columns>
+            <TableColumn fx:id="groupColumn" text="Группа продуктов" prefWidth="150"/>
+            <TableColumn fx:id="nameColumn" text="Наименование" prefWidth="150"/>
+            <TableColumn fx:id="quantityColumn" text="Количество" prefWidth="100"/>
+            <TableColumn fx:id="unitColumn" text="Единица измерения" prefWidth="150"/>
+            <TableColumn fx:id="expiryDateColumn" text="Дата завершения" prefWidth="150"/>
+            <TableColumn fx:id="remarkColumn" text="Примечание" prefWidth="150"/>
+        </columns>
+    </TableView>
+</VBox>
