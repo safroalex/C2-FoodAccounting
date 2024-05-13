@@ -151,7 +151,7 @@ public class WarehouseDAO {
                 "WHERE qp.WarehouseId IN (SELECT ID FROM Warehouse WHERE DateDeposit = ?)";
         try (Connection conn = DatabaseConnector.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setDate(1, java.sql.Date.valueOf(date)); // Конвертируем LocalDate в java.sql.Date для SQL запроса
+            pstmt.setDate(1, java.sql.Date.valueOf(date));
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 String group = rs.getString("GroupName");

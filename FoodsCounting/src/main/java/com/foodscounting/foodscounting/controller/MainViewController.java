@@ -34,7 +34,7 @@ public class MainViewController {
     public void switchToLayoutManagement() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/foodscounting/foodscounting/view/LayoutManagementView.fxml"));
-            VBox layoutView = loader.load();  // Убедитесь, что корневой элемент в FXML - VBox
+            VBox layoutView = loader.load();
             LayoutManagementController controller = loader.getController();
             controller.setMainController(this);
             mainContainer.setCenter(layoutView);

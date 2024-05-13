@@ -2,7 +2,7 @@ package com.foodscounting.foodscounting.controller;
 
 import com.foodscounting.foodscounting.model.tech.Dish;
 import com.foodscounting.foodscounting.model.tech.Layout;
-import com.foodscounting.foodscounting.dao.LayoutDAO; // Импорт класса LayoutDAO
+import com.foodscounting.foodscounting.dao.LayoutDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -38,7 +38,6 @@ public class LayoutDetailsController {
     }
 
     private ObservableList<Dish> getDishesForLayout(UUID layoutId) {
-        // Предполагается, что DAO может вернуть список блюд по ID раскладки
         return layoutDao.getDishesByLayoutId(layoutId);
     }
 }

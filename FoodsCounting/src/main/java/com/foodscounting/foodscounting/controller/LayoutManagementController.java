@@ -47,8 +47,8 @@ public class LayoutManagementController {
     @FXML
     private void handleAddLayout() {
         try {
-            layoutDao.addWeeklyLayout();  // Метод, который нужно реализовать в DAO
-            updateLayoutTable();          // Метод для обновления данных в таблице
+            layoutDao.addWeeklyLayout();
+            updateLayoutTable();
         } catch (SQLException e) {
             showAlert("Ошибка", "Ошибка при добавлении раскладки: " + e.getMessage(), Alert.AlertType.ERROR);
         }
@@ -66,7 +66,6 @@ public class LayoutManagementController {
     private void handleViewLayout() {
         Layout selectedLayout = layoutTable.getSelectionModel().getSelectedItem();
         if (selectedLayout != null) {
-            // Откройте новое окно с деталями для selectedLayout
             openLayoutDetailsWindow(selectedLayout);
         } else {
             showAlert("Ошибка", "Не выбрана раскладка для просмотра", Alert.AlertType.WARNING);
@@ -81,9 +80,9 @@ public class LayoutManagementController {
             controller.initData(layout);
 
             Stage stage = new Stage();
-            // Использование UUID в заголовке окна, преобразуя его в строку
             stage.setTitle("Детали раскладки: " + layout.getId().toString());
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root, 600, 400);
+            stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
