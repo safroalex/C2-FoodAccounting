@@ -45,25 +45,49 @@ CREATE TABLE QuantityProdukt (
 
 
 
-
+-- Добавление групп продуктов
 INSERT INTO ProduktGroup (Name) VALUES
+('Крупы и макаронные изделия'),
 ('Молочные продукты'),
-('Хлебобулочные изделия'),
-('Мясные продукты');
+('Овощи'),
+('Мясные изделия'),
+('Приправы и добавки'),
+('Кондитерские изделия'),
+('Напитки'),
+('Специфические ингредиенты');
 
+-- Добавление единиц измерения
 INSERT INTO Unit (Name, Description) VALUES
-('кг', 'Килограммы'),
-('л', 'Литры'),
-('шт', 'Штуки');
-
--- Предполагается, что ID групп уже известны или можно использовать SELECT для получения их
--- Например, предположим, что ID для "Молочные продукты" это 1, для "Хлебобулочные изделия" это 2 и т.д.
+('грамм', 'Граммы'),
+('миллилитры', 'Миллилитры');
 
 
+-- Добавление продуктов
 INSERT INTO Product (ProduktGroupId, Name) VALUES
+((SELECT ID FROM ProduktGroup WHERE Name = 'Крупы и макаронные изделия'), 'Крупа'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Крупы и макаронные изделия'), 'Макаронные изделии'),
+-- Молочные продукты
 ((SELECT ID FROM ProduktGroup WHERE Name = 'Молочные продукты'), 'Молоко'),
-((SELECT ID FROM ProduktGroup WHERE Name = 'Молочные продукты'), 'Кефир'),
-((SELECT ID FROM ProduktGroup WHERE Name = 'Хлебобулочные изделия'), 'Хлеб'),
-((SELECT ID FROM ProduktGroup WHERE Name = 'Хлебобулочные изделия'), 'Булочка'),
-((SELECT ID FROM ProduktGroup WHERE Name = 'Мясные продукты'), 'Курица'),
-((SELECT ID FROM ProduktGroup WHERE Name = 'Мясные продукты'), 'Говядина');
+-- Овощи
+((SELECT ID FROM ProduktGroup WHERE Name = 'Овощи'), 'Картофель'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Овощи'), 'Морковь'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Овощи'), 'Свекла'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Овощи'), 'Лук репчатый'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Овощи'), 'Капуста'),
+-- Мясные изделия
+((SELECT ID FROM ProduktGroup WHERE Name = 'Мясные изделия'), 'Мясо сырое'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Мясные изделия'), 'Сосиски'),
+-- Приправы и добавки
+((SELECT ID FROM ProduktGroup WHERE Name = 'Приправы и добавки'), 'Соль'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Приправы и добавки'), 'Томатная паста'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Приправы и добавки'), 'Кулинарные жиры'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Приправы и добавки'), 'Масло растительное'),
+-- Кондитерские изделия
+((SELECT ID FROM ProduktGroup WHERE Name = 'Кондитерские изделия'), 'Концентрат киселя'),
+-- Напитки
+((SELECT ID FROM ProduktGroup WHERE Name = 'Напитки'), 'Чай'),
+-- Специфические ингредиенты
+((SELECT ID FROM ProduktGroup WHERE Name = 'Специфические ингредиенты'), 'Сахар'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Специфические ингредиенты'), 'Сухофрукты');
+
+
