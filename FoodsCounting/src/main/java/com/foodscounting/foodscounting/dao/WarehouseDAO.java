@@ -166,7 +166,4 @@ public class WarehouseDAO {
         return products;
     }
 
-
-
-
 }
