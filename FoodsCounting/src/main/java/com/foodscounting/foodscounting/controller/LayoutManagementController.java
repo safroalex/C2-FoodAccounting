@@ -1,22 +1,44 @@
 package com.foodscounting.foodscounting.controller;
 
+import com.foodscounting.foodscounting.model.tech.Layout;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import com.foodscounting.foodscounting.dao.LayoutDAO;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 
 public class LayoutManagementController {
-    @FXML private TableView<?> layoutTable;
-    @FXML private TableColumn<?, Integer> columnNumber;
-    @FXML private TableColumn<?, String> columnPeriod;
-    @FXML private TableColumn<?, String> columnStatus;
+    @FXML private TableView<Layout> layoutTable; // Указываем, что таблица работает с объектами Layout
+    @FXML private TableColumn<Layout, Integer> columnId;
+    @FXML private TableColumn<Layout, Date> columnDateBegin;
+    @FXML private TableColumn<Layout, Date> columnDateEnd;
+    @FXML private TableColumn<Layout, String> columnStatus;
+
+    private ObservableList<Layout> layouts = FXCollections.observableArrayList();
+
 
     private MainViewController mainController;
     private LayoutDAO layoutDao = new LayoutDAO();
+    @FXML
+    public void initialize() {
+        columnId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        columnDateBegin.setCellValueFactory(new PropertyValueFactory<>("dateBegin"));
+        columnDateEnd.setCellValueFactory(new PropertyValueFactory<>("dateEnd"));
+        columnStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 
+        updateLayoutTable();
+    }
     // Сеттер для MainViewController
     public void setMainController(MainViewController mainController) {
         this.mainController = mainController;
@@ -42,8 +64,34 @@ public class LayoutManagementController {
 
     @FXML
     private void handleViewLayout() {
-        // Просмотр выбранной раскладки
+        Layout selectedLayout = layoutTable.getSelectionModel().getSelectedItem();
+        if (selectedLayout != null) {
+            // Откройте новое окно с деталями для selectedLayout
+            openLayoutDetailsWindow(selectedLayout);
+        } else {
+            showAlert("Ошибка", "Не выбрана раскладка для просмотра", Alert.AlertType.WARNING);
+        }
     }
+
+    private void openLayoutDetailsWindow(Layout layout) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/foodscounting/foodscounting/view/LayoutDetails.fxml"));
+            Parent root = loader.load();
+            LayoutDetailsController controller = loader.getController();
+            controller.initData(layout);
+
+            Stage stage = new Stage();
+            // Использование UUID в заголовке окна, преобразуя его в строку
+            stage.setTitle("Детали раскладки: " + layout.getId().toString());
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Ошибка", "Не удалось открыть окно деталей: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+
 
     @FXML
     private void handleDeleteLayout() {
@@ -63,7 +111,13 @@ public class LayoutManagementController {
     }
 
     private void updateLayoutTable() {
-        // Здесь будет код обновления данных в таблице
-        // Этот метод должен извлекать все раскладки из базы данных и обновлять layoutTable
+        try {
+            layouts.clear();
+            layouts.addAll(layoutDao.getLayouts());  // Загрузка всех раскладок
+            layoutTable.setItems(layouts);
+        } catch (SQLException e) {
+            showAlert("Ошибка", "Не удалось загрузить раскладки: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
+
 }

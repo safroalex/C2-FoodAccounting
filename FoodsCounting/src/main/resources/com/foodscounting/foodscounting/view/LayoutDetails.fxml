@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.foodscounting.foodscounting.controller.LayoutDetailsController" spacing="10" style="-fx-padding: 10;">
+    <Label text="Детали раскладки"/>
+    <TableView fx:id="dishesTable">
+        <columns>
+            <TableColumn text="Название блюда" fx:id="columnDishName"/>
+            <TableColumn text="Калорийность" fx:id="columnCaloricContent"/>
+        </columns>
+    </TableView>
+</VBox>

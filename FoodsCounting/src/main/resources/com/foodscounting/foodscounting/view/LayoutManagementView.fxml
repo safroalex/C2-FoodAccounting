@@ -2,6 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.foodscounting.foodscounting.controller.LayoutManagementController" spacing="10" style="-fx-padding: 10;">
     <HBox spacing="10" alignment="CENTER">
@@ -14,9 +15,26 @@
 
     <TableView fx:id="layoutTable">
         <columns>
-            <TableColumn text="№" fx:id="columnNumber"/>
-            <TableColumn text="Период раскладки" fx:id="columnPeriod"/>
-            <TableColumn text="Статус" fx:id="columnStatus"/>
+            <TableColumn text="ID" fx:id="columnId">
+                <cellValueFactory>
+                    <PropertyValueFactory property="id" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Дата начала" fx:id="columnDateBegin">
+                <cellValueFactory>
+                    <PropertyValueFactory property="dateBegin" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Дата окончания" fx:id="columnDateEnd">
+                <cellValueFactory>
+                    <PropertyValueFactory property="dateEnd" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Статус" fx:id="columnStatus">
+                <cellValueFactory>
+                    <PropertyValueFactory property="status" />
+                </cellValueFactory>
+            </TableColumn>
         </columns>
     </TableView>
 </VBox>

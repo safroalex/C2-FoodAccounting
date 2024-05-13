@@ -1,6 +1,10 @@
 package com.foodscounting.foodscounting.dao;
 
+import com.foodscounting.foodscounting.model.tech.Dish;
+import com.foodscounting.foodscounting.model.tech.Layout;
 import com.foodscounting.foodscounting.utils.DatabaseConnector;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.sql.Date;
@@ -41,12 +45,14 @@ public class LayoutDAO {
     }
 
     private void distributeDishes(Connection connection, UUID layoutId) throws SQLException {
-        String selectDishesSQL = "SELECT ID, CaloricContent FROM Dish";
+        String selectDishesSQL = "SELECT Name, CaloricContent FROM Dish";
         List<Dish> dishes = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement(selectDishesSQL)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                dishes.add(new Dish(UUID.fromString(rs.getString("ID")), rs.getInt("CaloricContent")));
+                String name = rs.getString("Name");
+                int caloricContent = rs.getInt("CaloricContent");
+                dishes.add(new Dish(name, caloricContent));  // Создание объектов Dish
             }
         }
 
@@ -60,12 +66,11 @@ public class LayoutDAO {
                 if (totalCalories + dish.getCaloricContent() <= 2000 && canPrepareDish(connection, dish)) {
                     dailyDishes.add(dish);
                     totalCalories += dish.getCaloricContent();
-                    String insertLayoutDishSQL = "INSERT INTO LayoutDishes (ID, LayoutId, DishId, Quantity) VALUES (?, ?, ?, ?)";
+                    String insertLayoutDishSQL = "INSERT INTO LayoutDishes (LayoutId, DishId, Quantity) VALUES (?, ?, ?)";
                     try (PreparedStatement ps = connection.prepareStatement(insertLayoutDishSQL)) {
-                        ps.setObject(1, UUID.randomUUID());
-                        ps.setObject(2, layoutId);
-                        ps.setObject(3, dish.getId());
-                        ps.setInt(4, 1); // Предполагаем, что одно блюдо добавляется один раз
+                        ps.setObject(1, layoutId);
+                        ps.setString(2, dish.getName());  // Предположим, что вы сохраняете имя как идентификатор
+                        ps.setInt(3, 1); // Предполагаем, что одно блюдо добавляется один раз
                         ps.executeUpdate();
                     }
                 }
@@ -73,22 +78,23 @@ public class LayoutDAO {
         }
     }
 
+
     private boolean canPrepareDish(Connection connection, Dish dish) throws SQLException {
         // Проверка наличия всех необходимых ингредиентов на складе
-        String checkIngredientsSQL = "SELECT di.ProduktId, di.Quantity FROM DishIngredients di WHERE di.DishId = ?";
-        Map<UUID, Double> requiredIngredients = new HashMap<>();
+        String checkIngredientsSQL = "SELECT di.ProduktId, di.Quantity FROM DishIngredients di JOIN Dish ON di.DishId = Dish.ID WHERE Dish.Name = ?";
+        Map<String, Double> requiredIngredients = new HashMap<>();
         try (PreparedStatement ps = connection.prepareStatement(checkIngredientsSQL)) {
-            ps.setObject(1, dish.getId());
+            ps.setString(1, dish.getName());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                requiredIngredients.put(UUID.fromString(rs.getString("ProduktId")), rs.getDouble("Quantity"));
+                requiredIngredients.put(rs.getString("ProduktId"), rs.getDouble("Quantity"));
             }
         }
 
-        for (Map.Entry<UUID, Double> entry : requiredIngredients.entrySet()) {
+        for (Map.Entry<String, Double> entry : requiredIngredients.entrySet()) {
             String checkStockSQL = "SELECT SUM(Number) AS Total FROM QuantityProdukt WHERE ProduktId = ?";
             try (PreparedStatement ps = connection.prepareStatement(checkStockSQL)) {
-                ps.setObject(1, entry.getKey());
+                ps.setString(1, entry.getKey());
                 ResultSet rs = ps.executeQuery();
                 if (!rs.next() || rs.getDouble("Total") < entry.getValue()) {
                     return false; // Недостаточно продуктов на складе
@@ -98,21 +104,42 @@ public class LayoutDAO {
         return true; // Все продукты в достаточном количестве
     }
 
-    static class Dish {
-        private UUID id;
-        private int caloricContent;
 
-        public Dish(UUID id, int caloricContent) {
-            this.id = id;
-            this.caloricContent = caloricContent;
+    // Добавление метода getLayouts для загрузки всех раскладок
+    public List<Layout> getLayouts() throws SQLException {
+        List<Layout> layouts = new ArrayList<>();
+        String query = "SELECT ID, DateBegin, DateEnd, Status FROM Layout";
+        try (Connection connection = DatabaseConnector.connect();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                UUID id = UUID.fromString(rs.getString("ID")); // Получаем ID как UUID
+                Date dateBegin = rs.getDate("DateBegin");
+                Date dateEnd = rs.getDate("DateEnd");
+                String status = rs.getString("Status");
+                // Создаем объект Layout, передавая UUID в качестве идентификатора
+                layouts.add(new Layout(id, dateBegin, dateEnd, status));
+            }
         }
-
-        public UUID getId() {
-            return id;
-        }
-
-        public int getCaloricContent() {
-            return caloricContent;
-        }
+        return layouts;
     }
+
+    public ObservableList<Dish> getDishesByLayoutId(UUID layoutId) {
+        ObservableList<Dish> dishes = FXCollections.observableArrayList();
+        String query = "SELECT Dish.Name, Dish.CaloricContent FROM Dish JOIN LayoutDishes ON Dish.ID = LayoutDishes.DishId WHERE LayoutDishes.LayoutId = ?";
+        try (Connection connection = DatabaseConnector.connect();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setObject(1, layoutId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("Name");
+                int caloricContent = rs.getInt("CaloricContent");
+                dishes.add(new Dish(name, caloricContent)); // Создание объектов Dish с использованием имени
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dishes;
+    }
+
 }
