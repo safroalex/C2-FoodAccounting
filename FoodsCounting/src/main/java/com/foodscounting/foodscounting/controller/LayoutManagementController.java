@@ -1,8 +1,12 @@
 package com.foodscounting.foodscounting.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
+import com.foodscounting.foodscounting.dao.LayoutDAO;
+
+import java.sql.SQLException;
 
 public class LayoutManagementController {
     @FXML private TableView<?> layoutTable;
@@ -11,6 +15,7 @@ public class LayoutManagementController {
     @FXML private TableColumn<?, String> columnStatus;
 
     private MainViewController mainController;
+    private LayoutDAO layoutDao = new LayoutDAO();
 
     // Сеттер для MainViewController
     public void setMainController(MainViewController mainController) {
@@ -19,7 +24,20 @@ public class LayoutManagementController {
 
     @FXML
     private void handleAddLayout() {
-        // Добавление новой раскладки
+        try {
+            layoutDao.addWeeklyLayout();  // Метод, который нужно реализовать в DAO
+            updateLayoutTable();          // Метод для обновления данных в таблице
+        } catch (SQLException e) {
+            showAlert("Ошибка", "Ошибка при добавлении раскладки: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    private void showAlert(String title, String message, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @FXML
@@ -42,5 +60,10 @@ public class LayoutManagementController {
         if (mainController != null) {
             mainController.showMainView();
         }
+    }
+
+    private void updateLayoutTable() {
+        // Здесь будет код обновления данных в таблице
+        // Этот метод должен извлекать все раскладки из базы данных и обновлять layoutTable
     }
 }
