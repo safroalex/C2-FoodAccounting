@@ -90,4 +90,10 @@ INSERT INTO Product (ProduktGroupId, Name) VALUES
 ((SELECT ID FROM ProduktGroup WHERE Name = 'Специфические ингредиенты'), 'Сахар'),
 ((SELECT ID FROM ProduktGroup WHERE Name = 'Специфические ингредиенты'), 'Сухофрукты');
 
-
+-- Добавление новых продуктов в таблицу Product
+INSERT INTO Product (ProduktGroupId, Name) VALUES
+((SELECT ID FROM ProduktGroup WHERE Name = 'Крупы и макаронные изделия'), 'Мука II сорт'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Мясные изделия'), 'Мясо отварное'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Крупы и макаронные изделия'), 'Крупа рисовая'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Крупы и макаронные изделия'), 'Крупы'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Крупы и макаронные изделия'), 'Мука');
