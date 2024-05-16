@@ -44,7 +44,7 @@ public class LayoutDAO {
     }
 
     private void distributeDishes(Connection connection, UUID layoutId) throws SQLException {
-        String selectDishesSQL = "SELECT ID, Name, CaloricContent FROM Dish";
+        String selectDishesSQL = "SELECT ID, Name, CaloricContent FROM Dish ORDER BY CaloricContent DESC";
         List<DishDetails> dishes = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement(selectDishesSQL)) {
             ResultSet rs = ps.executeQuery();
@@ -56,14 +56,12 @@ public class LayoutDAO {
             }
         }
 
-        Random rand = new Random();
-        int totalCalories = 0;
-        for (int i = 0; i < 7; i++) {
-            totalCalories = 0;
-            while (totalCalories < 1800) {
-                DishDetails dish = dishes.get(rand.nextInt(dishes.size()));
-                if (totalCalories + dish.getCaloricContent() <= 2000 && canPrepareDish(connection, dish.getId())) {
-                    totalCalories += dish.getCaloricContent();
+        //жадный алгоритм
+        for (int day = 0; day < 7; day++) {
+            int dailyCalories = 0;
+            for (DishDetails dish : dishes) {
+                if (dailyCalories + dish.getCaloricContent() <= 2000 && canPrepareDish(connection, dish.getId())) {
+                    dailyCalories += dish.getCaloricContent();
                     String insertLayoutDishSQL = "INSERT INTO LayoutDishes (ID, LayoutId, DishId, Quantity) VALUES (?, ?, ?, ?)";
                     try (PreparedStatement ps = connection.prepareStatement(insertLayoutDishSQL)) {
                         ps.setObject(1, UUID.randomUUID(), java.sql.Types.OTHER);
@@ -72,10 +70,12 @@ public class LayoutDAO {
                         ps.setInt(4, 1);
                         ps.executeUpdate();
                     }
+                    if (dailyCalories >= 1800) break; //достигнута минимальная калорийность
                 }
             }
         }
     }
+
 
 
     private boolean canPrepareDish(Connection connection, UUID dishId) throws SQLException {
