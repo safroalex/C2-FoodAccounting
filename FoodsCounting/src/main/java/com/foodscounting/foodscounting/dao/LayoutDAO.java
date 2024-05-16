@@ -72,9 +72,11 @@ public class LayoutDAO {
             }
         }
 
-        //жадный алгоритм
+        Collections.shuffle(dishes);
+        //реализация жадного алгоритма для каждого дня
         for (int day = 0; day < 7; day++) {
             int dailyCalories = 0;
+            Collections.shuffle(dishes);
             for (DishDetails dish : dishes) {
                 if (dailyCalories + dish.getCaloricContent() <= 2000 && canPrepareDish(connection, dish.getId())) {
                     dailyCalories += dish.getCaloricContent();
@@ -86,11 +88,12 @@ public class LayoutDAO {
                         ps.setInt(4, 1);
                         ps.executeUpdate();
                     }
-                    if (dailyCalories >= 1800) break; //достигнута минимальная калорийность
+                    if (dailyCalories >= 1800) break; //достижение минимальной калорийности
                 }
             }
         }
     }
+
 
     private boolean canPrepareDish(Connection connection, UUID dishId) throws SQLException {
         String checkIngredientsSQL = "SELECT di.ProduktId, di.Quantity FROM DishIngredients di WHERE di.DishId = ?";
