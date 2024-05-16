@@ -12,7 +12,6 @@
             <Menu text="Модули">
                 <MenuItem text="Управление складом" onAction="#handleWarehouse"/>
                 <MenuItem text="Управление раскладками" onAction="#handleLayouts"/>
-                <MenuItem text="Технологические карты" onAction="#handleTechCards"/>
             </Menu>
             <Menu text="Помощь">
                 <MenuItem text="О программе" onAction="#handleAbout"/>

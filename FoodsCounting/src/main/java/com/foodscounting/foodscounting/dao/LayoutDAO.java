@@ -141,4 +141,88 @@ public class LayoutDAO {
         }
         return dishes;
     }
+
+    public void deleteLayout(UUID layoutId) throws SQLException {
+        Connection connection = DatabaseConnector.connect();
+        try {
+            connection.setAutoCommit(false);
+
+            // Удаление связанных данных из таблицы LayoutDishes
+            String deleteLayoutDishesSQL = "DELETE FROM LayoutDishes WHERE LayoutId = ?";
+            try (PreparedStatement ps = connection.prepareStatement(deleteLayoutDishesSQL)) {
+                ps.setObject(1, layoutId, java.sql.Types.OTHER);
+                ps.executeUpdate();
+            }
+
+            // Удаление самой раскладки
+            String deleteLayoutSQL = "DELETE FROM Layout WHERE ID = ?";
+            try (PreparedStatement ps = connection.prepareStatement(deleteLayoutSQL)) {
+                ps.setObject(1, layoutId, java.sql.Types.OTHER);
+                ps.executeUpdate();
+            }
+
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
+            connection.close();
+        }
+    }
+
+
+
+
+    public void approveLayout(UUID layoutId) throws SQLException {
+        Connection connection = DatabaseConnector.connect();
+        try {
+            connection.setAutoCommit(false);
+
+            // обновление статуса раскладки
+            String updateStatusSQL = "UPDATE Layout SET Status = 'Approved' WHERE ID = ?";
+            try (PreparedStatement ps = connection.prepareStatement(updateStatusSQL)) {
+                ps.setObject(1, layoutId, java.sql.Types.OTHER);
+                ps.executeUpdate();
+            }
+
+            // списание продуктов со склада
+            String getIngredientsSQL = "SELECT DishId, Quantity FROM LayoutDishes WHERE LayoutId = ?";
+            try (PreparedStatement ps = connection.prepareStatement(getIngredientsSQL)) {
+                ps.setObject(1, layoutId, java.sql.Types.OTHER);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    UUID dishId = UUID.fromString(rs.getString("DishId"));
+                    int quantity = rs.getInt("Quantity");
+                    decrementStock(connection, dishId, quantity);
+                }
+            }
+
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
+            connection.close();
+        }
+    }
+
+    private void decrementStock(Connection connection, UUID dishId, int quantity) throws SQLException {
+        String ingredientsSQL = "SELECT ProduktId, Quantity FROM DishIngredients WHERE DishId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(ingredientsSQL)) {
+            ps.setObject(1, dishId, java.sql.Types.OTHER);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                UUID produktId = UUID.fromString(rs.getString("ProduktId"));
+                double requiredQuantity = rs.getDouble("Quantity") * quantity;
+                String updateStockSQL = "UPDATE QuantityProdukt SET Number = Number - ? WHERE ProduktId = ?";
+                try (PreparedStatement updatePs = connection.prepareStatement(updateStockSQL)) {
+                    updatePs.setDouble(1, requiredQuantity);
+                    updatePs.setObject(2, produktId, java.sql.Types.OTHER);
+                    updatePs.executeUpdate();
+                }
+            }
+        }
+    }
 }

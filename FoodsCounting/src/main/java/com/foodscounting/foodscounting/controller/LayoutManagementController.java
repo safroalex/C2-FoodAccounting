@@ -19,7 +19,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 
 public class LayoutManagementController {
-    @FXML private TableView<Layout> layoutTable; // Указываем, что таблица работает с объектами Layout
+    @FXML private TableView<Layout> layoutTable;
     @FXML private TableColumn<Layout, Integer> columnId;
     @FXML private TableColumn<Layout, Date> columnDateBegin;
     @FXML private TableColumn<Layout, Date> columnDateEnd;
@@ -94,13 +94,37 @@ public class LayoutManagementController {
 
     @FXML
     private void handleDeleteLayout() {
-        // Удаление выбранной раскладки
+        Layout selectedLayout = layoutTable.getSelectionModel().getSelectedItem();
+        if (selectedLayout != null) {
+            try {
+                layoutDao.deleteLayout(selectedLayout.getId());
+                updateLayoutTable();  // Обновление таблицы для отражения изменений
+                showAlert("Успех", "Раскладка успешно удалена.", Alert.AlertType.INFORMATION);
+            } catch (SQLException e) {
+                showAlert("Ошибка", "Ошибка при удалении раскладки: " + e.getMessage(), Alert.AlertType.ERROR);
+            }
+        } else {
+            showAlert("Ошибка", "Не выбрана раскладка для удаления.", Alert.AlertType.WARNING);
+        }
     }
+
 
     @FXML
     private void handleApproveLayout() {
-        // Утверждение выбранной раскладки
+        Layout selectedLayout = layoutTable.getSelectionModel().getSelectedItem();
+        if (selectedLayout != null && "New".equals(selectedLayout.getStatus())) {
+            try {
+                layoutDao.approveLayout(selectedLayout.getId());
+                updateLayoutTable();  // Обновление таблицы для отражения изменений
+                showAlert("Успех", "Раскладка утверждена и продукты списаны со склада.", Alert.AlertType.INFORMATION);
+            } catch (SQLException e) {
+                showAlert("Ошибка", "Ошибка при утверждении раскладки: " + e.getMessage(), Alert.AlertType.ERROR);
+            }
+        } else {
+            showAlert("Ошибка", "Выбрана раскладка, которая уже утверждена или не выбрана никакая раскладка.", Alert.AlertType.WARNING);
+        }
     }
+
 
     @FXML
     private void handleBackToMain() {
@@ -112,7 +136,7 @@ public class LayoutManagementController {
     private void updateLayoutTable() {
         try {
             layouts.clear();
-            layouts.addAll(layoutDao.getLayouts());  // Загрузка всех раскладок
+            layouts.addAll(layoutDao.getLayouts());  //загрузка всех раскладок
             layoutTable.setItems(layouts);
         } catch (SQLException e) {
             showAlert("Ошибка", "Не удалось загрузить раскладки: " + e.getMessage(), Alert.AlertType.ERROR);
