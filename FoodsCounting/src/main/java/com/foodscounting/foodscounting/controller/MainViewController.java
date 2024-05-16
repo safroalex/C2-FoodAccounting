@@ -11,6 +11,11 @@ import java.util.logging.Logger;
 
 import java.io.IOException;
 
+/**
+ * Контроллер главного окна приложения, управляющий переключением между различными видами (вкладками) интерфейса пользователя.
+ * Позволяет переключаться между управлением складом, управлением раскладками и другими функциональными частями приложения.
+ * Обрабатывает действия пользователя и отображает соответствующие представления.
+ */
 public class MainViewController {
     private static final Logger LOGGER = Logger.getLogger(MainViewController.class.getName());
 

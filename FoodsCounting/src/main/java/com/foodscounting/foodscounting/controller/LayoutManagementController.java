@@ -26,8 +26,6 @@ public class LayoutManagementController {
     @FXML private TableColumn<Layout, String> columnStatus;
 
     private ObservableList<Layout> layouts = FXCollections.observableArrayList();
-
-
     private MainViewController mainController;
     private LayoutDAO layoutDao = new LayoutDAO();
     @FXML
@@ -39,7 +37,7 @@ public class LayoutManagementController {
 
         updateLayoutTable();
     }
-    // Сеттер для MainViewController
+
     public void setMainController(MainViewController mainController) {
         this.mainController = mainController;
     }
@@ -136,7 +134,7 @@ public class LayoutManagementController {
     private void updateLayoutTable() {
         try {
             layouts.clear();
-            layouts.addAll(layoutDao.getLayouts());  //загрузка всех раскладок
+            layouts.addAll(layoutDao.getLayouts());
             layoutTable.setItems(layouts);
         } catch (SQLException e) {
             showAlert("Ошибка", "Не удалось загрузить раскладки: " + e.getMessage(), Alert.AlertType.ERROR);

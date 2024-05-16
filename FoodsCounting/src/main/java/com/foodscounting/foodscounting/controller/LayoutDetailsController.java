@@ -3,7 +3,6 @@ package com.foodscounting.foodscounting.controller;
 import com.foodscounting.foodscounting.model.tech.Dish;
 import com.foodscounting.foodscounting.model.tech.Layout;
 import com.foodscounting.foodscounting.dao.LayoutDAO;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -12,6 +11,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.UUID;
 
+/**
+ * Контроллер для управления деталями раскладки. Отображает блюда, связанные с выбранной раскладкой.
+ * Использует {@link LayoutDAO} для получения данных и отображения их в таблице.
+ */
 public class LayoutDetailsController {
 
     @FXML
@@ -21,10 +24,10 @@ public class LayoutDetailsController {
     @FXML
     private TableColumn<Dish, Integer> columnCaloricContent;
 
-    private LayoutDAO layoutDao; // Экземпляр LayoutDAO
+    private LayoutDAO layoutDao;
 
     public LayoutDetailsController() {
-        this.layoutDao = new LayoutDAO(); // Инициализация LayoutDAO
+        this.layoutDao = new LayoutDAO();
     }
 
     public void initialize() {
@@ -33,7 +36,6 @@ public class LayoutDetailsController {
     }
 
     public void initData(Layout layout) {
-        // Загрузка блюд, связанных с раскладкой
         dishesTable.setItems(getDishesForLayout(layout.getId()));
     }
 

@@ -2,6 +2,10 @@ package com.foodscounting.foodscounting.model.warehouse;
 
 import java.time.LocalDate;
 
+/**
+ * Класс описывает детальную информацию о товаре на складе.
+ * Включает группу товара, название, количество, единицу измерения, срок годности и примечание.
+ */
 public class ProductDetail {
     private String group;
     private String name;

@@ -12,19 +12,35 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * Класс LayoutDAO управляет взаимодействием с базой данных для операций, связанных с раскладками.
+ * Этот класс обеспечивает функциональность добавления, удаления, утверждения раскладок,
+ * а также извлечения информации о раскладках и связанных с ними блюдах.
+ *
+ * Основные методы:
+ * - addWeeklyLayout: создает новую раскладку на неделю, распределяет блюда исходя из калорийности.
+ * - distributeDishes: распределяет блюда по дням недели в рамках созданной раскладки.
+ * - canPrepareDish: проверяет, достаточно ли ингредиентов на складе для приготовления блюда.
+ * - getLayouts: извлекает список всех раскладок из базы данных.
+ * - deleteLayout: удаляет указанную раскладку и связанные с ней данные из базы данных.
+ * - approveLayout: утверждает раскладку и списывает необходимые продукты со склада.
+ * - getDishesByLayoutId: возвращает список блюд для конкретной раскладки.
+ *
+ * Каждый метод управляет своими SQL-запросами и обеспечивает соответствующие транзакционные гарантии.
+ */
 public class LayoutDAO {
 
     public void addWeeklyLayout() throws SQLException {
         Connection connection = DatabaseConnector.connect();
         try {
-            connection.setAutoCommit(false); // Отключение автокоммита для контроля транзакций
+            connection.setAutoCommit(false);
 
             UUID layoutId = UUID.randomUUID();
             LocalDate startDate = LocalDate.now();
             LocalDate endDate = startDate.plusDays(6);
             String insertLayoutSQL = "INSERT INTO Layout (ID, DateBegin, DateEnd, Status) VALUES (?, ?, ?, ?)";
             try (PreparedStatement ps = connection.prepareStatement(insertLayoutSQL)) {
-                ps.setObject(1, layoutId, java.sql.Types.OTHER);  // Явно указываем тип UUID
+                ps.setObject(1, layoutId, java.sql.Types.OTHER);
                 ps.setDate(2, Date.valueOf(startDate));
                 ps.setDate(3, Date.valueOf(endDate));
                 ps.setString(4, "New");
@@ -76,8 +92,6 @@ public class LayoutDAO {
         }
     }
 
-
-
     private boolean canPrepareDish(Connection connection, UUID dishId) throws SQLException {
         String checkIngredientsSQL = "SELECT di.ProduktId, di.Quantity FROM DishIngredients di WHERE di.DishId = ?";
         Map<UUID, Double> requiredIngredients = new HashMap<>();
@@ -101,11 +115,6 @@ public class LayoutDAO {
         }
         return true;
     }
-
-
-
-
-
 
     public List<Layout> getLayouts() throws SQLException {
         List<Layout> layouts = new ArrayList<>();
@@ -147,14 +156,12 @@ public class LayoutDAO {
         try {
             connection.setAutoCommit(false);
 
-            // Удаление связанных данных из таблицы LayoutDishes
             String deleteLayoutDishesSQL = "DELETE FROM LayoutDishes WHERE LayoutId = ?";
             try (PreparedStatement ps = connection.prepareStatement(deleteLayoutDishesSQL)) {
                 ps.setObject(1, layoutId, java.sql.Types.OTHER);
                 ps.executeUpdate();
             }
 
-            // Удаление самой раскладки
             String deleteLayoutSQL = "DELETE FROM Layout WHERE ID = ?";
             try (PreparedStatement ps = connection.prepareStatement(deleteLayoutSQL)) {
                 ps.setObject(1, layoutId, java.sql.Types.OTHER);
@@ -170,9 +177,6 @@ public class LayoutDAO {
             connection.close();
         }
     }
-
-
-
 
     public void approveLayout(UUID layoutId) throws SQLException {
         Connection connection = DatabaseConnector.connect();

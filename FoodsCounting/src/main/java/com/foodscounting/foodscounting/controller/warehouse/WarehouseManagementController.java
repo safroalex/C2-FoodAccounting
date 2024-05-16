@@ -22,6 +22,12 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Контроллер управления складом. Обеспечивает отображение записей склада и позволяет управлять ими:
+ * добавление, удаление и просмотр деталей продуктов.
+ * Взаимодействует с {@link WarehouseDAO} для выполнения операций базы данных.
+ */
+
 public class WarehouseManagementController {
     @FXML
     private TableView<ProductRecord> inventoryTable;
@@ -75,11 +81,8 @@ public class WarehouseManagementController {
         ProductRecord selectedRecord = inventoryTable.getSelectionModel().getSelectedItem();
         if (selectedRecord != null) {
             try {
-                // Получаем LocalDate из ObjectProperty
                 LocalDate selectedDate = selectedRecord.dateProperty().get();
-                // Конвертируем LocalDate в java.sql.Date для использования в SQL запросе
                 warehouseDao.deleteWarehouseEntriesByDate(Date.valueOf(selectedDate));
-                // Обновляем таблицу
                 updateInventoryTable();
                 System.out.println("Запись успешно удалена.");
             } catch (SQLException e) {
@@ -103,9 +106,9 @@ public class WarehouseManagementController {
 
             ProductRecord selectedRecord = inventoryTable.getSelectionModel().getSelectedItem();
             if (selectedRecord != null) {
-                LocalDate selectedDate = selectedRecord.getDate();  // Получение LocalDate
+                LocalDate selectedDate = selectedRecord.getDate();
 
-                List<ProductDetail> products = warehouseDao.getProductsByDate(selectedDate); // Передаём LocalDate
+                List<ProductDetail> products = warehouseDao.getProductsByDate(selectedDate);
                 controller.setProducts(products);
 
                 Stage stage = new Stage();

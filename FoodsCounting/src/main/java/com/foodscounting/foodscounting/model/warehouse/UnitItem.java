@@ -2,6 +2,10 @@ package com.foodscounting.foodscounting.model.warehouse;
 
 import java.util.UUID;
 
+/**
+ * Класс представляет единицу измерения для товаров.
+ * Хранит идентификатор и название единицы измерения.
+ */
 public class UnitItem {
     private UUID id;
     private String name;

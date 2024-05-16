@@ -9,6 +9,10 @@ import com.foodscounting.foodscounting.model.warehouse.ProductDetail;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Контроллер для отображения деталей продуктов в складской раскладке.
+ * Позволяет просмотреть детальную информацию о продуктах, выбранных по дате хранения.
+ */
 public class ProductDetailsController {
     @FXML
     private TableView<ProductDetail> detailsTable;

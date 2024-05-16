@@ -17,7 +17,11 @@ import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 import com.foodscounting.foodscounting.dao.WarehouseDAO;
 
-
+/**
+ * Контроллер диалогового окна для добавления нового продукта на склад.
+ * Обрабатывает пользовательский ввод, включая выбор группы продуктов, продуктов, единиц измерения,
+ * количества, срока годности и замечаний. Сохраняет новый продукт в базу данных через {@link WarehouseDAO}.
+ */
 public class AddProductDialogController {
     @FXML private ComboBox<GroupItem> productGroupComboBox;
     @FXML private ComboBox<ProductItem> productNameComboBox;

@@ -8,6 +8,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Класс WarehouseDAO управляет взаимодействием с базой данных для операций, связанных со складом.
+ * Этот класс обеспечивает функциональность управления продуктовыми группами, продуктами, единицами измерения,
+ * а также добавление и удаление записей о продуктах на складе.
+ *
+ * Основные методы:
+ * - getProductGroups: извлекает список всех продуктовых групп.
+ * - getProductNamesByGroup: возвращает список продуктов, принадлежащих к определенной группе.
+ * - getUnitItems: извлекает список всех единиц измерения.
+ * - findOrCreateWarehouseEntry: находит или создает запись склада для заданной даты.
+ * - addProductToWarehouse: добавляет продукт на склад.
+ * - getAllWarehouseEntries: извлекает информацию обо всех записях на складе.
+ * - deleteWarehouseEntriesByDate: удаляет все записи склада по указанной дате.
+ * - getProductsByDate: получает детализацию продуктов, хранящихся на складе по определенной дате.
+ *
+ * Эти методы используются для управления данными склада, обеспечивая централизованное хранение и доступ к информации о продуктах.
+ */
+
 public class WarehouseDAO {
     public List<GroupItem> getProductGroups() throws SQLException {
         List<GroupItem> groups = new ArrayList<>();
@@ -39,9 +57,6 @@ public class WarehouseDAO {
         return items;
     }
 
-
-
-
     public List<UnitItem> getUnitItems() throws SQLException {
         List<UnitItem> units = new ArrayList<>();
         String sql = "SELECT ID, Name FROM Unit ORDER BY Name";
@@ -56,8 +71,6 @@ public class WarehouseDAO {
         }
         return units;
     }
-
-
 
     public UUID findOrCreateWarehouseEntry(Date date) throws SQLException {
         UUID warehouseId = findWarehouseByDate(date);
