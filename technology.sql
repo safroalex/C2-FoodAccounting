@@ -134,3 +134,143 @@ INSERT INTO Dish (Name, CaloricContent) VALUES
 ('Рыба жареная', 220),
 ('Поджарка из мяса', 250);
 
+
+-- Рыба жареная
+INSERT INTO DishIngredients (DishId, ProduktId, Quantity, UnitId) VALUES
+((SELECT ID FROM Dish WHERE Name = 'Рыба жареная'), (SELECT ID FROM Product WHERE Name = 'Рыба с/м'), 100, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Рыба жареная'), (SELECT ID FROM Product WHERE Name = 'Масло растительное'), 10, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Рыба жареная'), (SELECT ID FROM Product WHERE Name = 'Соль'), 3, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Рыба жареная'), (SELECT ID FROM Product WHERE Name = 'Мука II сорт'), 3, (SELECT ID FROM Unit WHERE Name = 'грамм'));
+
+-- Поджарка из мяса
+INSERT INTO DishIngredients (DishId, ProduktId, Quantity, UnitId) VALUES
+((SELECT ID FROM Dish WHERE Name = 'Поджарка из мяса'), (SELECT ID FROM Product WHERE Name = 'Мясо сырое'), 90, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Поджарка из мяса'), (SELECT ID FROM Product WHERE Name = 'Маргарин'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Поджарка из мяса'), (SELECT ID FROM Product WHERE Name = 'Лук репчатый'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Поджарка из мяса'), (SELECT ID FROM Product WHERE Name = 'Соль'), 3, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Поджарка из мяса'), (SELECT ID FROM Product WHERE Name = 'Вода'), 10, (SELECT ID FROM Unit WHERE Name = 'грамм'));
+
+-- Рыба (Путассу) запеченная в соусе
+INSERT INTO DishIngredients (DishId, ProduktId, Quantity, UnitId) VALUES
+((SELECT ID FROM Dish WHERE Name = 'Рыба (Путассу) запеченная в соусе'), (SELECT ID FROM Product WHERE Name = 'Рыба с/м'), 100, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Рыба (Путассу) запеченная в соусе'), (SELECT ID FROM Product WHERE Name = 'Масло растительное'), 10, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Рыба (Путассу) запеченная в соусе'), (SELECT ID FROM Product WHERE Name = 'Маргарин'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Рыба (Путассу) запеченная в соусе'), (SELECT ID FROM Product WHERE Name = 'Соус'), 25, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Рыба (Путассу) запеченная в соусе'), (SELECT ID FROM Product WHERE Name = 'Соль'), 3, (SELECT ID FROM Unit WHERE Name = 'грамм'));
+
+
+-- Рыба (Путассу) отварная
+INSERT INTO DishIngredients (DishId, ProduktId, Quantity, UnitId) VALUES
+((SELECT ID FROM Dish WHERE Name = 'Рыба (Путассу) отварная'), (SELECT ID FROM Product WHERE Name = 'Рыба с/м'), 100, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Рыба (Путассу) отварная'), (SELECT ID FROM Product WHERE Name = 'Масло растительное'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Рыба (Путассу) отварная'), (SELECT ID FROM Product WHERE Name = 'Лавровый лист'), 3, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Рыба (Путассу) отварная'), (SELECT ID FROM Product WHERE Name = 'Соль'), 3, (SELECT ID FROM Unit WHERE Name = 'грамм'));
+
+
+-- Рыба (Сельдь) соленая
+INSERT INTO DishIngredients (DishId, ProduktId, Quantity, UnitId) VALUES
+((SELECT ID FROM Dish WHERE Name = 'Рыба (Сельдь) соленая'), (SELECT ID FROM Product WHERE Name = 'Рыба с/м'), 100, (SELECT ID FROM Unit WHERE Name = 'грамм'));
+
+
+-- Макароны откидные
+INSERT INTO DishIngredients (DishId, ProduktId, Quantity, UnitId) VALUES
+((SELECT ID FROM Dish WHERE Name = 'Макароны откидные'), (SELECT ID FROM Product WHERE Name = 'Макаронные изделии'), 70, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Макароны откидные'), (SELECT ID FROM Product WHERE Name = 'Маргарин'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Макароны откидные'), (SELECT ID FROM Product WHERE Name = 'Соль'), 3, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Макароны откидные'), (SELECT ID FROM Product WHERE Name = 'Вода'), 420, (SELECT ID FROM Unit WHERE Name = 'грамм'));
+
+
+-- Котлета мясная
+INSERT INTO DishIngredients (DishId, ProduktId, Quantity, UnitId) VALUES
+((SELECT ID FROM Dish WHERE Name = 'Котлета мясная'), (SELECT ID FROM Product WHERE Name = 'Мясо сырое'), 90, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Котлета мясная'), (SELECT ID FROM Product WHERE Name = 'Лук репчатый'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Котлета мясная'), (SELECT ID FROM Product WHERE Name = 'Маргарин'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Котлета мясная'), (SELECT ID FROM Product WHERE Name = 'ТСМ'), 28, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Котлета мясная'), (SELECT ID FROM Product WHERE Name = 'Мука II сорт'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Котлета мясная'), (SELECT ID FROM Product WHERE Name = 'Яйцо'), 0.5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Котлета мясная'), (SELECT ID FROM Product WHERE Name = 'Вода'), 6.3, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Котлета мясная'), (SELECT ID FROM Product WHERE Name = 'Соль'), 3, (SELECT ID FROM Unit WHERE Name = 'грамм'));
+
+
+-- Огурцы соленые с луком
+INSERT INTO DishIngredients (DishId, ProduktId, Quantity, UnitId) VALUES
+((SELECT ID FROM Dish WHERE Name = 'Огурцы соленые с луком'), (SELECT ID FROM Product WHERE Name = 'Огурцы соленые'), 55, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Огурцы соленые с луком'), (SELECT ID FROM Product WHERE Name = 'Масло растительное'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Огурцы соленые с луком'), (SELECT ID FROM Product WHERE Name = 'Лук репчатый'), 10, (SELECT ID FROM Unit WHERE Name = 'грамм'));
+
+
+-- Томаты соленые с луком
+INSERT INTO DishIngredients (DishId, ProduktId, Quantity, UnitId) VALUES
+((SELECT ID FROM Dish WHERE Name = 'Томаты соленые с луком'), (SELECT ID FROM Product WHERE Name = 'Томаты соленые'), 55, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Томаты соленые с луком'), (SELECT ID FROM Product WHERE Name = 'Лук репчатый'), 10, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Томаты соленые с луком'), (SELECT ID FROM Product WHERE Name = 'Масло растительное'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм'));
+
+
+-- Салат из капусты свежей с морковью и луком
+INSERT INTO DishIngredients (DishId, ProduktId, Quantity, UnitId) VALUES
+((SELECT ID FROM Dish WHERE Name = 'Салат из капусты свежей с морковью и луком'), (SELECT ID FROM Product WHERE Name = 'Капуста'), 55, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Салат из капусты свежей с морковью и луком'), (SELECT ID FROM Product WHERE Name = 'Лук репчатый'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Салат из капусты свежей с морковью и луком'), (SELECT ID FROM Product WHERE Name = 'Морковь'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Салат из капусты свежей с морковью и луком'), (SELECT ID FROM Product WHERE Name = 'Масло растительное'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Салат из капусты свежей с морковью и луком'), (SELECT ID FROM Product WHERE Name = 'Соль'), 3, (SELECT ID FROM Unit WHERE Name = 'грамм'));
+
+
+-- Салат из моркови свежей с луком
+INSERT INTO DishIngredients (DishId, ProduktId, Quantity, UnitId) VALUES
+((SELECT ID FROM Dish WHERE Name = 'Салат из моркови свежей с луком'), (SELECT ID FROM Product WHERE Name = 'Лук репчатый'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Салат из моркови свежей с луком'), (SELECT ID FROM Product WHERE Name = 'Морковь'), 30, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Салат из моркови свежей с луком'), (SELECT ID FROM Product WHERE Name = 'Масло растительное'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Салат из моркови свежей с луком'), (SELECT ID FROM Product WHERE Name = 'Соль'), 3, (SELECT ID FROM Unit WHERE Name = 'грамм'));
+
+
+-- Салат из свеклы отварной с луком и морковью (до 1 января)
+INSERT INTO DishIngredients (DishId, ProduktId, Quantity, UnitId) VALUES
+((SELECT ID FROM Dish WHERE Name = 'Салат из свеклы отварной с луком и морковью (до 1 января)'), (SELECT ID FROM Product WHERE Name = 'Свекла'), 75, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Салат из свеклы отварной с луком и морковью (до 1 января)'), (SELECT ID FROM Product WHERE Name = 'Лук репчатый'), 10, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Салат из свеклы отварной с луком и морковью (до 1 января)'), (SELECT ID FROM Product WHERE Name = 'Морковь'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Салат из свеклы отварной с луком и морковью (до 1 января)'), (SELECT ID FROM Product WHERE Name = 'Масло растительное'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Салат из свеклы отварной с луком и морковью (до 1 января)'), (SELECT ID FROM Product WHERE Name = 'Соль'), 3, (SELECT ID FROM Unit WHERE Name = 'грамм'));
+
+
+-- Салат из свеклы маринованной с луком и морковью маринованной
+INSERT INTO DishIngredients (DishId, ProduktId, Quantity, UnitId) VALUES
+((SELECT ID FROM Dish WHERE Name = 'Салат из свеклы маринованной с луком и морковью маринованной'), (SELECT ID FROM Product WHERE Name = 'Свекла'), 50, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Салат из свеклы маринованной с луком и морковью маринованной'), (SELECT ID FROM Product WHERE Name = 'Лук репчатый'), 10, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Салат из свеклы маринованной с луком и морковью маринованной'), (SELECT ID FROM Product WHERE Name = 'Морковь'), 50, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Салат из свеклы маринованной с луком и морковью маринованной'), (SELECT ID FROM Product WHERE Name = 'Масло растительное'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Салат из свеклы маринованной с луком и морковью маринованной'), (SELECT ID FROM Product WHERE Name = 'Соль'), 3, (SELECT ID FROM Unit WHERE Name = 'грамм'));
+
+-- Салат из свеклы маринованной с луком и капустой маринованной
+INSERT INTO DishIngredients (DishId, ProduktId, Quantity, UnitId) VALUES
+((SELECT ID FROM Dish WHERE Name = 'Салат из свеклы маринованной с луком и капустой маринованной'), (SELECT ID FROM Product WHERE Name = 'Свекла маринованная'), 50, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Салат из свеклы маринованной с луком и капустой маринованной'), (SELECT ID FROM Product WHERE Name = 'Лук репчатый'), 10, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Салат из свеклы маринованной с луком и капустой маринованной'), (SELECT ID FROM Product WHERE Name = 'Капуста маринованная'), 50, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Салат из свеклы маринованной с луком и капустой маринованной'), (SELECT ID FROM Product WHERE Name = 'Масло растительное'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Салат из свеклы маринованной с луком и капустой маринованной'), (SELECT ID FROM Product WHERE Name = 'Соль'), 3, (SELECT ID FROM Unit WHERE Name = 'грамм'));
+
+
+-- Каша гречневая вязкая
+INSERT INTO DishIngredients (DishId, ProduktId, Quantity, UnitId) VALUES
+((SELECT ID FROM Dish WHERE Name = 'Каша гречневая вязкая'), (SELECT ID FROM Product WHERE Name = 'Крупа гречневая'), 70, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Каша гречневая вязкая'), (SELECT ID FROM Product WHERE Name = 'Маргарин'), 2.5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Каша гречневая вязкая'), (SELECT ID FROM Product WHERE Name = 'Соль'), 3, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Каша гречневая вязкая'), (SELECT ID FROM Product WHERE Name = 'Вода'), 224, (SELECT ID FROM Unit WHERE Name = 'грамм'));
+
+
+-- Каша пшеничная молочная
+INSERT INTO DishIngredients (DishId, ProduktId, Quantity, UnitId) VALUES
+((SELECT ID FROM Dish WHERE Name = 'Каша пшеничная молочная'), (SELECT ID FROM Product WHERE Name = 'Крупа пшеничная'), 80, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Каша пшеничная молочная'), (SELECT ID FROM Product WHERE Name = 'Маргарин'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Каша пшеничная молочная'), (SELECT ID FROM Product WHERE Name = 'Соль'), 3, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Каша пшеничная молочная'), (SELECT ID FROM Product WHERE Name = 'Вода'), 108, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Каша пшеничная молочная'), (SELECT ID FROM Product WHERE Name = 'Молоко'), 156, (SELECT ID FROM Unit WHERE Name = 'грамм'));
+
+
+-- Каша ячневая молочная
+INSERT INTO DishIngredients (DishId, ProduktId, Quantity, UnitId) VALUES
+((SELECT ID FROM Dish WHERE Name = 'Каша ячневая молочная'), (SELECT ID FROM Product WHERE Name = 'Крупа ячневая'), 80, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Каша ячневая молочная'), (SELECT ID FROM Product WHERE Name = 'Маргарин'), 5, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Каша ячневая молочная'), (SELECT ID FROM Product WHERE Name = 'Молоко'), 100, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Каша ячневая молочная'), (SELECT ID FROM Product WHERE Name = 'Соль'), 3, (SELECT ID FROM Unit WHERE Name = 'грамм')),
+((SELECT ID FROM Dish WHERE Name = 'Каша ячневая молочная'), (SELECT ID FROM Product WHERE Name = 'Вода'), 196, (SELECT ID FROM Unit WHERE Name = 'грамм'));
+
