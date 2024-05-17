@@ -104,3 +104,5 @@ INSERT INTO DishIngredients (DishId, ProduktId, Quantity, UnitId) VALUES
 ((SELECT ID FROM Dish WHERE Name = 'Пюре картофельное'), (SELECT ID FROM Product WHERE Name = 'Лук репчатый'), 20, (SELECT ID FROM Unit WHERE Name = 'грамм')),
 ((SELECT ID FROM Dish WHERE Name = 'Пюре картофельное'), (SELECT ID FROM Product WHERE Name = 'Томатная паста'), 1, (SELECT ID FROM Unit WHERE Name = 'грамм')),
 ((SELECT ID FROM Dish WHERE Name = 'Пюре картофельное'), (SELECT ID FROM Product WHERE Name = 'Мясо отварное'), 90, (SELECT ID FROM Unit WHERE Name = 'грамм'));
+
+
