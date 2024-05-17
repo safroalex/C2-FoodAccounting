@@ -97,3 +97,44 @@ INSERT INTO Product (ProduktGroupId, Name) VALUES
 ((SELECT ID FROM ProduktGroup WHERE Name = 'Крупы и макаронные изделия'), 'Крупа рисовая'),
 ((SELECT ID FROM ProduktGroup WHERE Name = 'Крупы и макаронные изделия'), 'Крупы'),
 ((SELECT ID FROM ProduktGroup WHERE Name = 'Крупы и макаронные изделия'), 'Мука');
+
+
+
+
+-- Добавление новых категорий
+INSERT INTO ProduktGroup (Name) VALUES ('Рыбные изделия');
+
+-- Добавление новых продуктов
+INSERT INTO Product (ProduktGroupId, Name) VALUES
+((SELECT ID FROM ProduktGroup WHERE Name = 'Приправы и добавки'), 'Маргарин'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Специфические ингредиенты'), 'Вода'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Рыбные изделия'), 'Рыба с/м'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Приправы и добавки'), 'Соус'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Приправы и добавки'), 'Лавровый лист'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Специфические ингредиенты'), 'ТСМ'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Специфические ингредиенты'), 'Яйцо');
+
+
+
+-- Добавление новых категорий
+INSERT INTO ProduktGroup (Name) VALUES ('Соленья'), ('Маринованные овощи'), ('Бульоны');
+
+-- Добавление новых продуктов
+INSERT INTO Product (ProduktGroupId, Name) VALUES
+((SELECT ID FROM ProduktGroup WHERE Name = 'Соленья'), 'Огурцы соленые'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Соленья'), 'Томаты соленые'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Маринованные овощи'), 'Свекла маринованная'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Маринованные овощи'), 'Капуста маринованная'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Крупы и макаронные изделия'), 'Крупа гречневая'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Крупы и макаронные изделия'), 'Крупа пшеничная'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Крупы и макаронные изделия'), 'Крупа ячневая'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Бульоны'), 'Мясной бульон'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Приправы и добавки'), 'Горчица');
+
+
+-- Добавление новых продуктов
+INSERT INTO Product (ProduktGroupId, Name) VALUES
+((SELECT ID FROM ProduktGroup WHERE Name = 'Бульоны'), 'Мясной бульон'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Крупы и макаронные изделия'), 'Крупа пшено'),
+((SELECT ID FROM ProduktGroup WHERE Name = 'Приправы и добавки'), 'Горчица');
+
