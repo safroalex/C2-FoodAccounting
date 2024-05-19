@@ -62,7 +62,7 @@ public class LayoutDAO {
     private void distributeDishes(Connection connection, UUID layoutId) throws SQLException {
         String selectDishesSQL = "SELECT ID, Name, CaloricContent FROM Dish ORDER BY CaloricContent DESC";
         List<DishDetails> dishes = new ArrayList<>();
-        Map<UUID, Integer> dishCounts = new HashMap<>(); // Для отслеживания количества использований каждого блюда
+        Map<UUID, Integer> dishCounts = new HashMap<>(); // для отслеживания количества использований каждого блюда
 
         try (PreparedStatement ps = connection.prepareStatement(selectDishesSQL)) {
             ResultSet rs = ps.executeQuery();
@@ -71,7 +71,7 @@ public class LayoutDAO {
                 String name = rs.getString("Name");
                 int caloricContent = rs.getInt("CaloricContent");
                 dishes.add(new DishDetails(id, name, caloricContent));
-                dishCounts.put(id, 0); // Инициализация счетчика блюд
+                dishCounts.put(id, 0); // инициализация счетчика блюд
             }
         }
 
@@ -80,13 +80,13 @@ public class LayoutDAO {
             int dailyCalories = 0;
             Collections.shuffle(dishes);
             for (DishDetails dish : dishes) {
-                boolean isBreakfastTime = (dailyCalories == 0); // Проверка, является ли это завтраком
-                boolean isKasha = dish.getName().contains("Каша") && isBreakfastTime; // Каши только на завтрак
-                boolean withinLimit = dishCounts.get(dish.getId()) < 3; // Блюдо использовалось менее трех раз
+                boolean isBreakfastTime = (dailyCalories == 0); //проверка, является ли это завтраком
+                boolean isKasha = dish.getName().contains("Каша") && isBreakfastTime; //каши только на завтрак
+                boolean withinLimit = dishCounts.get(dish.getId()) < 3; //блюдо использовалось менее трех раз
 
                 if (dailyCalories + dish.getCaloricContent() <= 2000 && withinLimit && canPrepareDish(connection, dish.getId()) && (!dish.getName().contains("Каша") || isKasha)) {
                     dailyCalories += dish.getCaloricContent();
-                    dishCounts.put(dish.getId(), dishCounts.get(dish.getId()) + 1); // Увеличиваем счетчик использования блюда
+                    dishCounts.put(dish.getId(), dishCounts.get(dish.getId()) + 1); //увеличиваем счетчик использования блюда
 
                     String insertLayoutDishSQL = "INSERT INTO LayoutDishes (ID, LayoutId, DishId, Quantity) VALUES (?, ?, ?, ?)";
                     try (PreparedStatement ps = connection.prepareStatement(insertLayoutDishSQL)) {
@@ -96,7 +96,7 @@ public class LayoutDAO {
                         ps.setInt(4, 1);
                         ps.executeUpdate();
                     }
-                    if (dailyCalories >= 1800) break; // Достижение минимальной калорийности
+                    if (dailyCalories >= 1800) break; //достижение минимальной калорийности
                 }
             }
         }
