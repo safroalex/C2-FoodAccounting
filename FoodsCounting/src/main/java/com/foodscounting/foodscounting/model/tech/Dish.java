@@ -15,6 +15,7 @@ package com.foodscounting.foodscounting.model.tech;
 public class Dish {
     private String name;
     private int caloricContent;
+    private String dayOfWeek;
 
     public Dish(String name, int caloricContent) {
         this.name = name;
@@ -27,5 +28,13 @@ public class Dish {
 
     public int getCaloricContent() {
         return caloricContent;
+    }
+    // getters and setters
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
     }
 }

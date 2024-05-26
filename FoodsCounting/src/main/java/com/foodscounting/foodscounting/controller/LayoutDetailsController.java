@@ -23,6 +23,8 @@ public class LayoutDetailsController {
     private TableColumn<Dish, String> columnDishName;
     @FXML
     private TableColumn<Dish, Integer> columnCaloricContent;
+    @FXML
+    private TableColumn<Dish, String> columnDayOfWeek;
 
     private LayoutDAO layoutDao;
 
@@ -33,10 +35,12 @@ public class LayoutDetailsController {
     public void initialize() {
         columnDishName.setCellValueFactory(new PropertyValueFactory<>("name"));
         columnCaloricContent.setCellValueFactory(new PropertyValueFactory<>("caloricContent"));
+        columnDayOfWeek.setCellValueFactory(new PropertyValueFactory<>("dayOfWeek"));
     }
 
     public void initData(Layout layout) {
-        dishesTable.setItems(getDishesForLayout(layout.getId()));
+        ObservableList<Dish> dishes = getDishesForLayout(layout.getId());
+        dishesTable.setItems(dishes);
     }
 
     private ObservableList<Dish> getDishesForLayout(UUID layoutId) {

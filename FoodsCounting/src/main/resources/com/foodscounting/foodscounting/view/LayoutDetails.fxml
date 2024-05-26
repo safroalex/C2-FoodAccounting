@@ -7,6 +7,7 @@
         <columns>
             <TableColumn text="Название блюда" fx:id="columnDishName"/>
             <TableColumn text="Калорийность" fx:id="columnCaloricContent"/>
+            <TableColumn text="День недели" fx:id="columnDayOfWeek"/>
         </columns>
     </TableView>
 </VBox>

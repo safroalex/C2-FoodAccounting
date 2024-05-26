@@ -29,6 +29,8 @@ CREATE TABLE LayoutDishes (
     DishId UUID REFERENCES Dish(ID),
     Quantity INT
 );
+ALTER TABLE LayoutDishes ADD DayOfWeek VARCHAR(10);
+
 
 
 

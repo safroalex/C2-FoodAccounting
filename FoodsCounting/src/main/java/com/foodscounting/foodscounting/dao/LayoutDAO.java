@@ -60,10 +60,12 @@ public class LayoutDAO {
     }
 
     private void distributeDishes(Connection connection, UUID layoutId) throws SQLException {
+        // sql-запрос для получения списка блюд, отсортированных по убыванию калорийности
         String selectDishesSQL = "SELECT ID, Name, CaloricContent FROM Dish ORDER BY CaloricContent DESC";
         List<DishDetails> dishes = new ArrayList<>();
-        Map<UUID, Integer> dishCounts = new HashMap<>(); // для отслеживания количества использований каждого блюда
+        Map<UUID, Integer> dishCounts = new HashMap<>(); // словарь для отслеживания количества использований каждого блюда за неделю
 
+        // выполнение sql-запроса и заполнение списка блюд
         try (PreparedStatement ps = connection.prepareStatement(selectDishesSQL)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -71,37 +73,51 @@ public class LayoutDAO {
                 String name = rs.getString("Name");
                 int caloricContent = rs.getInt("CaloricContent");
                 dishes.add(new DishDetails(id, name, caloricContent));
-                dishCounts.put(id, 0); // инициализация счетчика блюд
+                dishCounts.put(id, 0); // инициализация счетчика для каждого блюда
             }
         }
 
+        // перетасовка списка блюд для случайного распределения
         Collections.shuffle(dishes);
-        for (int day = 0; day < 7; day++) {
+        for (int day = 1; day <= 7; day++) {
             int dailyCalories = 0;
+            Set<UUID> usedDishes = new HashSet<>(); // множество для отслеживания использованных блюд в этот день
+
+            // повторная перетасовка списка блюд перед началом каждого нового дня
             Collections.shuffle(dishes);
             for (DishDetails dish : dishes) {
-                boolean isBreakfastTime = (dailyCalories == 0); //проверка, является ли это завтраком
-                boolean isKasha = dish.getName().contains("Каша") && isBreakfastTime; //каши только на завтрак
-                boolean withinLimit = dishCounts.get(dish.getId()) < 3; //блюдо использовалось менее трех раз
+                // проверка возможности приготовления блюда и его отсутствия в использованных ранее в этот день
+                boolean canBePrepared = canPrepareDish(connection, dish.getId()) && !usedDishes.contains(dish.getId());
+                // проверка, что блюдо использовалось менее трех раз за неделю
+                boolean underWeeklyLimit = dishCounts.get(dish.getId()) < 3;
 
-                if (dailyCalories + dish.getCaloricContent() <= 2000 && withinLimit && canPrepareDish(connection, dish.getId()) && (!dish.getName().contains("Каша") || isKasha)) {
+                // условие добавления блюда в раскладку: не превышает 2000 ккал или помогает достичь минимума в 1800 ккал
+                if (canBePrepared && underWeeklyLimit && (dailyCalories + dish.getCaloricContent() <= 2000 || (dailyCalories < 1800 && dailyCalories + dish.getCaloricContent() > 1800))) {
                     dailyCalories += dish.getCaloricContent();
-                    dishCounts.put(dish.getId(), dishCounts.get(dish.getId()) + 1); //увеличиваем счетчик использования блюда
+                    usedDishes.add(dish.getId());
+                    dishCounts.put(dish.getId(), dishCounts.get(dish.getId()) + 1); // увеличиваем счетчик использования блюда
 
-                    String insertLayoutDishSQL = "INSERT INTO LayoutDishes (ID, LayoutId, DishId, Quantity) VALUES (?, ?, ?, ?)";
+                    // sql-запрос для вставки информации о блюде в раскладку дня
+                    String insertLayoutDishSQL = "INSERT INTO LayoutDishes (ID, LayoutId, DishId, Quantity, DayOfWeek) VALUES (?, ?, ?, ?, ?)";
                     try (PreparedStatement ps = connection.prepareStatement(insertLayoutDishSQL)) {
                         ps.setObject(1, UUID.randomUUID(), java.sql.Types.OTHER);
                         ps.setObject(2, layoutId, java.sql.Types.OTHER);
                         ps.setObject(3, dish.getId(), java.sql.Types.OTHER);
                         ps.setInt(4, 1);
+                        ps.setString(5, String.valueOf(day));
                         ps.executeUpdate();
                     }
-                    if (dailyCalories >= 1800) break; //достижение минимальной калорийности
                 }
+                // если достигнут минимум калорийности, завершаем распределение на этот день
+                if (dailyCalories >= 1800) break;
+            }
+
+            // вывод предупреждения, если не удалось набрать минимально необходимое количество калорий
+            if (dailyCalories < 1800) {
+                System.out.println("Внимание: Не удалось набрать достаточное количество калорий для дня " + day);
             }
         }
     }
-
 
 
     private boolean canPrepareDish(Connection connection, UUID dishId) throws SQLException {
@@ -147,7 +163,7 @@ public class LayoutDAO {
 
     public ObservableList<Dish> getDishesByLayoutId(UUID layoutId) {
         ObservableList<Dish> dishes = FXCollections.observableArrayList();
-        String query = "SELECT Dish.Name, Dish.CaloricContent FROM Dish JOIN LayoutDishes ON Dish.ID = LayoutDishes.DishId WHERE LayoutDishes.LayoutId = ?";
+        String query = "SELECT Dish.Name, Dish.CaloricContent, LayoutDishes.DayOfWeek FROM Dish JOIN LayoutDishes ON Dish.ID = LayoutDishes.DishId WHERE LayoutDishes.LayoutId = ?";
         try (Connection connection = DatabaseConnector.connect();
              PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setObject(1, layoutId, java.sql.Types.OTHER);
@@ -155,13 +171,17 @@ public class LayoutDAO {
             while (rs.next()) {
                 String name = rs.getString("Name");
                 int caloricContent = rs.getInt("CaloricContent");
-                dishes.add(new Dish(name, caloricContent));
+                String dayOfWeek = rs.getString("DayOfWeek");
+                Dish dish = new Dish(name, caloricContent);
+                dish.setDayOfWeek(dayOfWeek);
+                dishes.add(dish);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return dishes;
     }
+
 
     public void deleteLayout(UUID layoutId) throws SQLException {
         Connection connection = DatabaseConnector.connect();
